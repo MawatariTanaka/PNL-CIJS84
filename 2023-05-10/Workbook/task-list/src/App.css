@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap");
+
+* {
+  box-sizing: border-box;
+  font-family: "Noto Sans Math", sans-serif;
+}
+
+html {
+  padding: 10vw 10vw;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid gray;
+  outline: none;
+  font-size: 6vw;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label::before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="checkbox"]:checked + label::before {
+  background-color: black;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
