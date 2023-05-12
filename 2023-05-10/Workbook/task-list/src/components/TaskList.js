@@ -3,11 +3,17 @@ import Task from "./Task";
 
 class TaskList extends React.Component {
   render() {
-    const taskLabels = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"];
+    const taskLabels = [
+      "Clean up bedroom",
+      "Buy some milk",
+      "Jogging",
+      "Learn React",
+      "Doing Exercises",
+    ];
     const taskComponents = taskLabels.map((label) => (
       <Task key={label} label={label} />
     ));
-    return <div id="task-list">{taskComponents}</div>;
+    return <div className="task-list">{taskComponents}</div>;
   }
 }
 

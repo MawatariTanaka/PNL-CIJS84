@@ -3,9 +3,11 @@ import React from "react";
 class Task extends React.Component {
   render() {
     return (
-      <div>
-        <input type="checkbox" />
-        <label>{this.props.label}</label>
+      <div className="task">
+        <input id={`task-checkbox-${this.props.label}`} type="checkbox" />
+        <label htmlFor={`task-checkbox-${this.props.label}`}>
+          {this.props.label}
+        </label>
       </div>
     );
   }
