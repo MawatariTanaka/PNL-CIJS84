@@ -4,7 +4,8 @@ class Footer extends React.Component {
   render() {
     return (
       <footer>
-        <p>Footer</p>
+        <p>5 Tasks Left!</p>
+        <p>MindX todolist</p>
       </footer>
     );
   }

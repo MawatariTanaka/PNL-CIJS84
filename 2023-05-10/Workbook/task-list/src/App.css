@@ -49,5 +49,12 @@ footer {
   bottom: 0;
   width: 100%;
   color: gray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   text-align: center;
+}
+
+footer p {
+  margin: 2rem;
 }
