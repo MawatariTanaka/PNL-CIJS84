@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Header from "./Components/Header";
 import BackgroundChanger from "./Components/BackgroundChanger";
+import Main from "./Components/Main";
 
 class App extends Component {
   state = {
@@ -40,6 +41,7 @@ class App extends Component {
           changeBackgroundChangerState={this.changeBackgroundChangerState}
           changeCurrentBackgroundImage={this.changeCurrentBackgroundImage}
         />
+        <Main />
       </div>
     );
   }
