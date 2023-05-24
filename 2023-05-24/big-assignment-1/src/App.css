@@ -1,38 +1,88 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.modifier {
+  padding: 2rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  border-radius: 15px;
+  background-color: #897bda;
+}
+
+.add-expense-btn,
+.add-expense-form-btn {
+  padding: 1rem 3rem;
+  background-color: #862796;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.add-expense-form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 1rem;
+}
+
+.add-expense-form label {
+  padding: 0.5rem;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.add-expense-form input {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.add-expense-form-btn {
+  padding: 0.5rem;
+}
+
+.expense-list {
+  background-color: #1a1a1a;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-radius: 15px;
+}
+
+.expense-show {
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  background-color: #575757;
+}
+
+.expense-show-date {
+  width: 8rem;
+  height: 8rem;
+  border: 1px solid white;
+  border-radius: 10px;
+  background-color: #1a1a1a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.month {
+  margin: 0.25rem;
+}
+
+.year {
+  margin: 0.25rem;
+  font-weight: 900;
+}
+
+.day {
+  margin: 0.5rem;
+  font-size: 2rem;
+  font-weight: 900;
 }
