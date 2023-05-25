@@ -13,6 +13,23 @@ const reducer = (state, action) => {
         ...state,
         expenseArray: [...state.expenseArray, action.payload],
       };
+    case "UPDATE_EXPENSE":
+      return {
+        ...state,
+        expenseArray: state.expenseArray.map((expense) => {
+          if (expense.id === action.payload.id) {
+            return action.payload;
+          }
+          return expense;
+        }),
+      };
+    case "DELETE_EXPENSE":
+      return {
+        ...state,
+        expenseArray: state.expenseArray.filter(
+          (expense) => expense.id !== action.payload.id
+        ),
+      };
     default:
       return state;
   }

@@ -79,13 +79,7 @@ export default function Modifier() {
               Add
             </button>
             <button
-              className="add-expense-form-btn"
-              style={{
-                marginLeft: "20px",
-                backgroundColor: "#D0D0D0",
-                color: "#6A6A6A",
-                border: "1px solid #862796",
-              }}
+              className="add-expense-form-btn cancel-btn"
               onClick={() => setIsAddingExpense(false)}
             >
               Back

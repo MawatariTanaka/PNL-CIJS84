@@ -15,7 +15,8 @@
 }
 
 .add-expense-btn,
-.add-expense-form-btn {
+.add-expense-form-btn,
+.update-expense-form-btn {
   padding: 1rem 3rem;
   background-color: #862796;
   color: white;
@@ -42,7 +43,8 @@
   border-radius: 10px;
 }
 
-.add-expense-form-btn {
+.add-expense-form-btn,
+.update-expense-form-btn {
   padding: 0.5rem;
 }
 
@@ -111,9 +113,9 @@
 }
 
 .expense-show {
-  margin-bottom: 1rem;
+  margin-top: 2rem;
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   display: grid;
   grid-template-columns: auto 1fr;
   background-color: #575757;
@@ -169,4 +171,38 @@
   color: white;
   font-weight: 700;
   font-size: 2rem;
+}
+
+.update-expense-form {
+  width: 100%;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 1rem;
+  background-color: #897bda;
+  border-radius: 0 0 10px 10px;
+}
+
+.update-expense-form label {
+  padding: 0.5rem;
+  color: white;
+}
+
+.update-expense-form input {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 10px;
+}
+
+.delete-btn {
+  background-color: black;
+  color: white;
+  margin-left: 20px;
+}
+
+.cancel-btn {
+  margin-left: 20px;
+  background-color: #d0d0d0;
+  color: #6a6a6a;
+  border: 1px solid #862796;
 }
