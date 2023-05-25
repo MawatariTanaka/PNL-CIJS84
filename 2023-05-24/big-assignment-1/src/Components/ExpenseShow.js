@@ -3,7 +3,7 @@ import React from "react";
 export default function ExpenseShow({ name, amount, date }) {
   const newDate = new Date(date);
   const monthString = newDate.toLocaleString("en-US", {
-    month: "long",
+    month: "short",
   });
   const dayString = newDate.toLocaleString("en-US", {
     day: "numeric",
@@ -19,8 +19,10 @@ export default function ExpenseShow({ name, amount, date }) {
         <div className="year">{yearString}</div>
         <div className="day">{dayString}</div>
       </div>
-      <div className="expense-show-name">{name}</div>
-      <div className="expense-show-amount">{amount}</div>
+      <div className="expense-show-description">
+        <div className="expense-show-name">{name}</div>
+        <div className="expense-show-amount">$ {amount}</div>
+      </div>
     </div>
   );
 }
