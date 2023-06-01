@@ -1,0 +1,45 @@
+html {
+  font-size: 20px;
+}
+
+.App {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
+}
+
+button.show {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+button.hide {
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0.3s;
+}
+
+button:hover {
+  background-color: darkblue;
+}
