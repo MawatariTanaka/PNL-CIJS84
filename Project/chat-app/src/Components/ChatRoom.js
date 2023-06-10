@@ -1,17 +1,16 @@
-import React from "react";
-import { auth } from "../App";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function ChatRoom() {
-  const handleSignOut = async () => {
-    await auth.signOut().then(() => {
-      console.log("Signed out successfully!");
-    });
-  };
-
-  return (
-    <div>
-      <div>ChatRoom</div>
-      <button onClick={handleSignOut}>Sign Out</button>
-    </div>
-  );
+export default function Chatroom({ user }) {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!user) {
+            navigate("/signin");
+        }
+    }, [user]);
+    return (
+        <div>
+            <div>Chatroom</div>
+        </div>
+    );
 }
