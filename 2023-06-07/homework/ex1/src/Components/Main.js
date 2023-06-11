@@ -1,5 +1,10 @@
-import React from "react";
+import { useContext } from "react";
+import { AppContext } from "../appContext";
+import { useTranslation } from "react-i18next";
 
 export default function Main() {
-    return <div>Main</div>;
+    const { state } = useContext(AppContext);
+    const { username } = state;
+    const { t } = useTranslation();
+    return <div>{}</div>;
 }
