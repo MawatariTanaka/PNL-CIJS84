@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { db } from "../App";
+import React, { useState, useContext } from "react";
+import { ChatContext } from "../Context/chatContext";
+import { auth, db } from "../App";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 export default function Contact() {
     const [username, setUsername] = useState("");
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState(null);
+    const [users, setUsers] = useState([]);
 
     const searchUsers = async () => {
         const usersRef = collection(db, "users");
@@ -15,10 +15,14 @@ export default function Contact() {
             where("username", "<=", username + "\uf8ff")
         );
         const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            setUser(doc.data());
-        });
+        const qualifiedUsers = querySnapshot.docs
+            .filter((doc) => doc.data().email !== auth.currentUser.email)
+            .map((doc) => doc.data())
+            .slice(0, 3);
+        setUsers(qualifiedUsers);
     };
+
+    const { dispatch } = useContext(ChatContext);
 
     return (
         <div className="contact-list">
@@ -28,22 +32,31 @@ export default function Contact() {
                 placeholder="Find a contact..."
                 value={username}
                 onKeyDown={(e) => {
-                    if (e.code == "Enter") {
-                        console.log(user);
+                    if (e.code === "Enter") {
                         searchUsers();
                     }
                 }}
                 onChange={(e) => setUsername(e.target.value)}
             />
             <div className="searched-users">
-                {user && (
-                    <div className="suggested-user">
-                        <div className="suggested-user-name">
-                            {user.username}
+                {users &&
+                    users.map((user) => (
+                        <div
+                            key={user.id}
+                            className="suggested-user"
+                            onClick={() =>
+                                dispatch({ type: "CHANGE_USER", payload: user })
+                            }
+                        >
+                            <img
+                                className="suggested-user-img"
+                                src={`${process.env.PUBLIC_URL}/icon/profile-user.png`}
+                            />
+                            <div className="suggested-user-name">
+                                {user.username}
+                            </div>
                         </div>
-                        <div className="suggested-user-email">{user.email}</div>
-                    </div>
-                )}
+                    ))}
             </div>
         </div>
     );

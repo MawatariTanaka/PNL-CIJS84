@@ -15,17 +15,15 @@ export default function Register() {
         e.preventDefault();
         createUserWithEmailAndPassword(auth, email, password)
             .then(async () => {
-                // add async keyword here
                 await updateProfile(auth.currentUser, {
-                    // add await here
                     displayName: username,
                 });
                 const user = auth.currentUser;
                 await addDoc(collection(db, "users"), {
-                    // add await here
                     id: user.uid,
                     email: user.email,
                     username: username,
+                    photoURL: "",
                 });
                 navigate("/");
             })

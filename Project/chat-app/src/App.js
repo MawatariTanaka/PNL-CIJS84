@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import Chatroom from "./Components/Chatroom";
 import SignIn from "./Components/SignIn";
 import Register from "./Components/Register";
@@ -27,6 +27,13 @@ export { app, auth, db };
 
 function App() {
     const [user, setUser] = useState(null);
+    const [headerHeight, setHeaderHeight] = useState(0);
+    const headerRef = useRef(null);
+
+    useEffect(() => {
+        setHeaderHeight(headerRef.current.clientHeight);
+    }, []);
+
     onAuthStateChanged(auth, (user) => {
         if (user) {
             setUser(user);
@@ -34,25 +41,28 @@ function App() {
             setUser(null);
         }
     });
-    console.log(user);
+
     const handleSignOut = () => {
         auth.signOut();
     };
 
     return (
         <div className="App">
-            <header>
+            <header ref={headerRef}>
                 <h1>Chat App 🔥</h1>
                 {user && <button onClick={handleSignOut}>Sign Out</button>}
             </header>
             <main>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Chatroom user={user} />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/signin" element={<SignIn />} />
-                    </Routes>
-                </BrowserRouter>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <Chatroom user={user} headerHeight={headerHeight} />
+                        }
+                    />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/signin" element={<SignIn />} />
+                </Routes>
             </main>
         </div>
     );
