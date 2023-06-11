@@ -52,11 +52,11 @@ form {
     flex-direction: column;
 }
 
-label {
+.auth-label {
     padding: 1rem 0.5rem;
 }
 
-input {
+.auth-input {
     padding: 0.5rem;
     width: 20rem;
     background-color: white;
@@ -88,5 +88,24 @@ h2 {
     border-radius: 1rem;
     text-decoration: none;
     background-color: var(--dark-blue-secondary);
+    color: white;
+}
+
+.chatroom-container {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.contact-list {
+    padding: 1rem;
+}
+
+.search-contact {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    outline: none;
     color: white;
 }

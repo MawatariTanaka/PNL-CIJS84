@@ -29,17 +29,23 @@ export default function SignIn() {
     return (
         <form className="auth-form" onSubmit={handleSignIn}>
             <h2 style={{ gridColumn: "1 / span 2" }}>Sign In</h2>
-            <label htmlFor="email">Email:</label>
+            <label className="auth-label" htmlFor="email">
+                Email:
+            </label>
             <input
+                className="auth-input"
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
 
-            <label htmlFor="password">Password:</label>
+            <label className="auth-label" htmlFor="password">
+                Password:
+            </label>
 
             <input
+                className="auth-input"
                 type="password"
                 id="password"
                 value={password}

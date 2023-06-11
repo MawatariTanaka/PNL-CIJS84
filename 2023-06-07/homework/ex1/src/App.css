@@ -1,0 +1,39 @@
+:root {
+    --blue: #4864c7;
+    --light-grey: #f0f0f0;
+    --grey: #c4c4c4;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+}
+
+.App {
+    min-height: 100vh;
+    position: relative;
+}
+
+header {
+    padding: 0 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--light-grey);
+}
+
+.login-btn {
+    padding: 1rem;
+    border: none;
+    background-color: transparent;
+    color: var(--blue);
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--grey);
+}

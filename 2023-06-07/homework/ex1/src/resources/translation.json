@@ -1,0 +1,11 @@
+{
+    "en": {
+      "greeting": "Hello, {{name}}!",
+      "button": "Click Me"
+    },
+    "es": {
+      "greeting": "¡Hola, {{name}}!",
+      "button": "Haz Click Aquí"
+    }
+  }
+  
