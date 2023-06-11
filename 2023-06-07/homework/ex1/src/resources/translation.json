@@ -1,11 +1,18 @@
 {
     "en": {
-      "greeting": "Hello, {{name}}!",
-      "button": "Click Me"
+        "translation": {
+            "greeting": "Hello, {{name}}.",
+            "login": "Login",
+            "login-btn": "Login",
+            "username": "Username ..."
+        }
     },
-    "es": {
-      "greeting": "¡Hola, {{name}}!",
-      "button": "Haz Click Aquí"
+    "vi": {
+        "translation": {
+            "greeting": "Hello, {{name}}.",
+            "login-btn": "Đăng nhập",
+            "login": "Đăng nhập",
+            "username": "Tên người dùng ..."
+        }
     }
-  }
-  
+}

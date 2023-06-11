@@ -31,9 +31,66 @@ header {
     color: var(--blue);
 }
 
+main {
+    min-height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    width: 40%;
+    border: 3px solid var(--light-grey);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.login-label {
+    display: block;
+    width: 100%;
+    padding: 0.25rem;
+    text-align: center;
+    border-bottom: 2px black solid;
+    background-color: var(--grey);
+    text-transform: uppercase;
+}
+
+.login-input {
+    width: 75%;
+    padding: 0.25rem;
+    margin: 1rem;
+    border: 2px solid var(--light-grey);
+    border-radius: 10px;
+    text-align: center;
+    outline: none;
+}
+
+.login-submit {
+    min-width: 25%;
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem 1rem 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--blue);
+    color: white;
+    text-transform: uppercase;
+}
+
 footer {
     position: absolute;
     bottom: 0;
     width: 100%;
+    padding: 2rem 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--grey);
+}
+
+.language-select {
+    border-radius: 5px;
+    outline: none;
 }

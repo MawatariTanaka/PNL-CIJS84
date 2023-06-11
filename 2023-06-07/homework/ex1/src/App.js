@@ -13,7 +13,7 @@ function App() {
     return (
         <div className="App">
             <Header />
-            {username === "" ? <Login /> : <Main />}
+            <main>{username === "" ? <Login /> : <Main />}</main>
             <Footer />
         </div>
     );

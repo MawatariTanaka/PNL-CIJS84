@@ -2,7 +2,6 @@ import React, { createContext, useReducer } from "react";
 
 const initialState = {
     username: "",
-    language: "en",
 };
 
 const reducer = (state, action) => {
@@ -11,11 +10,6 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 username: action.payload,
-            };
-        case "SET_LANGUAGE":
-            return {
-                ...state,
-                language: action.payload,
             };
         default:
             return state;
