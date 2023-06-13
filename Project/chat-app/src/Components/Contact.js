@@ -16,7 +16,7 @@ export default function Contact() {
         );
         const querySnapshot = await getDocs(q);
         const qualifiedUsers = querySnapshot.docs
-            .filter((doc) => doc.data().email !== auth.currentUser.email)
+            .filter((doc) => doc.data().id !== auth.currentUser.uid)
             .map((doc) => doc.data())
             .slice(0, 3);
         setUsers(qualifiedUsers);

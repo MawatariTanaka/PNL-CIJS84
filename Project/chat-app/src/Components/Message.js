@@ -17,7 +17,7 @@ function CurrentMessage() {
         `${process.env.PUBLIC_URL}/icon/profile-user.png`;
 
     return (
-        <div>
+        <>
             <div className="message-user-to">
                 <img className="message-user-img" src={userPhoto} />
                 <p className="message-user-name">
@@ -26,12 +26,17 @@ function CurrentMessage() {
             </div>
             <div className="message-box">
                 <input
-                    className="message-input"
                     type="text"
                     onChange={(e) => setMessage(e.target.value)}
                 />
+                <button>
+                    <img
+                        src={`${process.env.PUBLIC_URL}/icon/send-message.png`}
+                        alt="send"
+                    />
+                </button>
             </div>
-        </div>
+        </>
     );
 }
 
