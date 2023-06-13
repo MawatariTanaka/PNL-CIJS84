@@ -23,6 +23,7 @@ export default function Register() {
                 });
                 const userRef = doc(db, "users", user.uid);
                 await setDoc(userRef, {
+                    id: user.uid,
                     email: user.email,
                     username: username,
                     photoURL: "",
