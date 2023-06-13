@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { collection, setDoc, doc } from "firebase/firestore"; // import firestore dependencies
-import { auth, db } from "../App"; // import your firebase app instance
+import { collection, setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../App";
+import { ChatContext } from "../Context/chatContext";
 
 export default function Register() {
+    const { dispatch } = useContext(ChatContext);
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -25,6 +27,7 @@ export default function Register() {
                     username: username,
                     photoURL: "",
                 });
+                dispatch({ type: "RESET" });
                 navigate("/");
             })
             .catch((error) => {
