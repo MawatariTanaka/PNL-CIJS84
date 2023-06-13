@@ -16,35 +16,23 @@ const initialState = {
 };
 
 const chatReducer = (state, action) => {
-    let sender, receiver, combinedId, chatRef, chat;
     switch (action.type) {
         case "CHANGE_USER":
-            sender = auth.currentUser.uid;
-            receiver = state.currentMessagingUser.id;
-            combinedId =
-                sender > receiver
-                    ? `${sender}${receiver}`
-                    : `${receiver}${sender}`;
-            chatRef = doc(db, "chats", combinedId);
-            getDoc(chatRef).then((docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    chat = docSnapshot.data();
-                }
-            });
+            const { user, chat } = action.payload;
             return {
                 ...state,
-                currentMessagingUser: action.payload,
-                currentDialogue: chat ? chat : [],
+                currentMessagingUser: user,
+                currentDialogue: chat ? chat.messages : [],
             };
         case "SEND_MESSAGE":
-            sender = auth.currentUser.uid;
-            receiver = state.currentMessagingUser.id;
-            combinedId =
+            const sender = auth.currentUser.uid;
+            const receiver = state.currentMessagingUser.id;
+            const combinedId =
                 sender > receiver
                     ? `${sender}${receiver}`
                     : `${receiver}${sender}`;
             const message = { sender, text: action.payload };
-            chatRef = doc(db, "chats", combinedId);
+            const chatRef = doc(db, "chats", combinedId);
             getDoc(chatRef).then((docSnapshot) => {
                 if (docSnapshot.exists()) {
                     updateDoc(chatRef, {

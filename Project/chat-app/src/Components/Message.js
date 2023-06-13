@@ -12,7 +12,6 @@ function BlankMessage() {
 function CurrentMessage() {
     const { dispatch } = useContext(ChatContext);
     const { currentMessagingUser, currentDialogue } = useContext(ChatContext);
-
     const [message, setMessage] = useState("");
     const userPhoto =
         currentMessagingUser.photoURL ||
@@ -27,9 +26,11 @@ function CurrentMessage() {
                 </p>
             </div>
             <div className="dialogue">
-                {currentDialogue.map((message) => (
-                    <div className="message">{message.text}</div>
-                ))}
+                {currentDialogue && currentDialogue.length > 0
+                    ? currentDialogue.map((messageObj) => (
+                          <div className="message">{messageObj.text}</div>
+                      ))
+                    : null}
             </div>
             <div className="message-box">
                 <input

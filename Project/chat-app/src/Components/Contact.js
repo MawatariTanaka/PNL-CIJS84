@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ChatContext } from "../Context/chatContext";
 import { auth, db } from "../App";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 
 export default function Contact() {
     const [username, setUsername] = useState("");
@@ -44,9 +44,28 @@ export default function Contact() {
                         <div
                             key={user.id}
                             className="suggested-user"
-                            onClick={() =>
-                                dispatch({ type: "CHANGE_USER", payload: user })
-                            }
+                            onClick={() => {
+                                let chat;
+                                const sender = auth.currentUser.uid;
+                                const receiver = user.id;
+                                const combinedId =
+                                    sender > receiver
+                                        ? `${sender}${receiver}`
+                                        : `${receiver}${sender}`;
+                                const chatRef = doc(db, "chats", combinedId);
+                                getDoc(chatRef)
+                                    .then((docSnapshot) => {
+                                        if (docSnapshot.exists()) {
+                                            chat = docSnapshot.data();
+                                        }
+                                    })
+                                    .then(() => {
+                                        dispatch({
+                                            type: "CHANGE_USER",
+                                            payload: { user, chat },
+                                        });
+                                    });
+                            }}
                         >
                             <img
                                 className="suggested-user-img"
