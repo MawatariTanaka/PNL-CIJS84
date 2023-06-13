@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore"; // import firestore dependencies
+import { collection, setDoc, doc } from "firebase/firestore"; // import firestore dependencies
 import { auth, db } from "../App"; // import your firebase app instance
 
 export default function Register() {
@@ -15,12 +15,12 @@ export default function Register() {
         e.preventDefault();
         createUserWithEmailAndPassword(auth, email, password)
             .then(async () => {
-                await updateProfile(auth.currentUser, {
+                const user = auth.currentUser;
+                await updateProfile(user, {
                     displayName: username,
                 });
-                const user = auth.currentUser;
-                await addDoc(collection(db, "users"), {
-                    id: user.uid,
+                const userRef = doc(db, "users", user.uid);
+                await setDoc(userRef, {
                     email: user.email,
                     username: username,
                     photoURL: "",
