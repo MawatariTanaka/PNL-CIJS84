@@ -10,6 +10,7 @@ function BlankMessage() {
 }
 
 function CurrentMessage() {
+    const { dispatch } = useContext(ChatContext);
     const [message, setMessage] = useState("");
     const { currentMessagingUser } = useContext(ChatContext);
     const userPhoto =
@@ -29,7 +30,12 @@ function CurrentMessage() {
                     type="text"
                     onChange={(e) => setMessage(e.target.value)}
                 />
-                <button>
+                <button
+                    onClick={() => {
+                        dispatch({ type: "SEND_MESSAGE", payload: message });
+                        setMessage("");
+                    }}
+                >
                     <img
                         src={`${process.env.PUBLIC_URL}/icon/send-message.png`}
                         alt="send"
