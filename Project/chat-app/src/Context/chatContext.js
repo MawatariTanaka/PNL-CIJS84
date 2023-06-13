@@ -41,6 +41,34 @@ const chatReducer = (state, action) => {
                     setDoc(chatRef, {
                         messages: [message],
                     });
+                    const userRef = doc(db, "users", auth.currentUser.uid);
+                    getDoc(userRef).then((docSnapshot) => {
+                        if (docSnapshot.exists()) {
+                            updateDoc(userRef, {
+                                currentDialogue: arrayUnion(combinedId),
+                            });
+                        } else {
+                            setDoc(userRef, {
+                                currentDialogue: [combinedId],
+                            });
+                        }
+                    });
+                    const messagingUserRef = doc(
+                        db,
+                        "users",
+                        state.currentMessagingUser.id
+                    );
+                    getDoc(messagingUserRef).then((docSnapshot) => {
+                        if (docSnapshot.exists()) {
+                            updateDoc(messagingUserRef, {
+                                currentDialogue: arrayUnion(combinedId),
+                            });
+                        } else {
+                            setDoc(messagingUserRef, {
+                                currentDialogue: [combinedId],
+                            });
+                        }
+                    });
                 }
             });
             return state;
