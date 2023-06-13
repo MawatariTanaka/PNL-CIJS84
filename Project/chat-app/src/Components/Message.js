@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import { ChatContext } from "../Context/chatContext";
 
 function BlankMessage() {
@@ -11,8 +11,9 @@ function BlankMessage() {
 
 function CurrentMessage() {
     const { dispatch } = useContext(ChatContext);
+    const { currentMessagingUser, currentDialogue } = useContext(ChatContext);
+
     const [message, setMessage] = useState("");
-    const { currentMessagingUser } = useContext(ChatContext);
     const userPhoto =
         currentMessagingUser.photoURL ||
         `${process.env.PUBLIC_URL}/icon/profile-user.png`;
@@ -24,6 +25,11 @@ function CurrentMessage() {
                 <p className="message-user-name">
                     {currentMessagingUser.username}
                 </p>
+            </div>
+            <div className="dialogue">
+                {currentDialogue.map((message) => (
+                    <div className="message">{message.text}</div>
+                ))}
             </div>
             <div className="message-box">
                 <input
