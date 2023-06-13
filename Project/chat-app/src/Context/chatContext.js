@@ -44,6 +44,8 @@ const chatReducer = (state, action) => {
                 }
             });
             return state;
+        case "RESET":
+            return initialState;
         default:
             return state;
     }

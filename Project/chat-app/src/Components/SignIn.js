@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../App";
+import { ChatContext } from "../Context/chatContext";
 
 export default function SignIn() {
+    const { dispatch } = useContext(ChatContext);
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -13,6 +15,7 @@ export default function SignIn() {
         e.preventDefault();
         try {
             await signInWithEmailAndPassword(auth, email, password).then(() => {
+                dispatch({ type: "RESET" });
                 navigate("/");
             });
         } catch (error) {
