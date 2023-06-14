@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer } from 'react';
 
 export const GameContext = createContext();
 
@@ -45,13 +45,7 @@ const initialState = {
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case "UPDATE_GRID":
-            const allAudioElements = document.querySelectorAll("audio");
-            allAudioElements.forEach((audio) => audio.pause());
-            const audio = new Audio(
-                `${process.env.PUBLIC_URL}/sounds/block-movement-sound.mp3`
-            );
-            audio.play();
+        case 'UPDATE_GRID':
             let newGrid = action.payload;
             let newFinishedState = true;
             for (let i = 0; i < newGrid.length; i++) {
@@ -76,13 +70,13 @@ const reducer = (state, action) => {
                 moveCounter: moveCount,
                 finished: newFinishedState,
             };
-        case "UPDATE_CURRENT_PIECE":
+        case 'UPDATE_CURRENT_PIECE':
             return {
                 ...state,
                 currentPiece: action.payload,
                 allowedMovement: false,
             };
-        case "UPDATE_MOUSE_POSITION":
+        case 'UPDATE_MOUSE_POSITION':
             return {
                 ...state,
                 mousePosition: action.payload,
