@@ -1,14 +1,4 @@
 import { createContext, useReducer } from "react";
-import {
-    doc,
-    collection,
-    getDoc,
-    setDoc,
-    updateDoc,
-    arrayUnion,
-} from "firebase/firestore";
-
-import { auth, db } from "../App";
 
 const initialState = {
     currentMessagingUser: "",
@@ -25,58 +15,7 @@ const chatReducer = (state, action) => {
                 currentDialogue: chat ? chat.messages : [],
             };
         case "SEND_MESSAGE":
-            const sender = auth.currentUser.uid;
-            const receiver = state.currentMessagingUser.id;
-            const combinedId =
-                sender > receiver
-                    ? `${sender}${receiver}`
-                    : `${receiver}${sender}`;
-            const message = { sender, text: action.payload };
-            const chatRef = doc(db, "chats", combinedId);
-            getDoc(chatRef).then((docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    updateDoc(chatRef, {
-                        messages: arrayUnion(message),
-                    });
-                    chat = docSnapshot.data();
-                    return {
-                        ...state,
-                        currentDialogue: chat ? chat : [],
-                    };
-                }
-                setDoc(chatRef, {
-                    messages: [message],
-                });
-                const userRef = doc(db, "users", auth.currentUser.uid);
-                getDoc(userRef).then((docSnapshot) => {
-                    if (docSnapshot.exists()) {
-                        updateDoc(userRef, {
-                            currentDialogue: arrayUnion(combinedId),
-                        });
-                    } else {
-                        setDoc(userRef, {
-                            currentDialogue: [combinedId],
-                        });
-                    }
-                });
-                const messagingUserRef = doc(
-                    db,
-                    "users",
-                    state.currentMessagingUser.id
-                );
-                getDoc(messagingUserRef).then((docSnapshot) => {
-                    if (docSnapshot.exists()) {
-                        updateDoc(messagingUserRef, {
-                            currentDialogue: arrayUnion(combinedId),
-                        });
-                    } else {
-                        setDoc(messagingUserRef, {
-                            currentDialogue: [combinedId],
-                        });
-                    }
-                });
-            });
-            return state;
+            return { ...state, currentDialogue: action.payload.messages };
         case "RESET":
             return initialState;
         default:

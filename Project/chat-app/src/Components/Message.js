@@ -1,5 +1,14 @@
 import { useState, useContext } from "react";
 import { ChatContext } from "../Context/chatContext";
+import {
+    doc,
+    collection,
+    getDoc,
+    setDoc,
+    updateDoc,
+    arrayUnion,
+} from "firebase/firestore";
+import { auth, db } from "../App";
 
 function BlankMessage() {
     return (
@@ -27,8 +36,10 @@ function CurrentMessage() {
             </div>
             <div className="dialogue">
                 {currentDialogue && currentDialogue.length > 0
-                    ? currentDialogue.map((messageObj) => (
-                          <div className="message">{messageObj.text}</div>
+                    ? currentDialogue.map((messageObj, index) => (
+                          <div key={index} className="message">
+                              {messageObj.text}
+                          </div>
                       ))
                     : null}
             </div>
@@ -40,8 +51,84 @@ function CurrentMessage() {
                 />
                 <button
                     onClick={() => {
-                        dispatch({ type: "SEND_MESSAGE", payload: message });
-                        setMessage("");
+                        let chat;
+                        const sender = auth.currentUser.uid;
+                        const receiver = currentMessagingUser.id;
+                        const combinedId =
+                            sender > receiver
+                                ? `${sender}${receiver}`
+                                : `${receiver}${sender}`;
+                        const currentMessage = {
+                            sender: sender,
+                            text: message,
+                        };
+                        const chatRef = doc(db, "chats", combinedId);
+                        getDoc(chatRef)
+                            .then((docSnapshot) => {
+                                if (docSnapshot.exists()) {
+                                    updateDoc(chatRef, {
+                                        messages: arrayUnion(currentMessage),
+                                    });
+                                } else {
+                                    setDoc(chatRef, {
+                                        messages: [currentMessage],
+                                    });
+                                    const userRef = doc(db, "users", sender);
+                                    getDoc(userRef).then((docSnapshot) => {
+                                        if (docSnapshot.exists()) {
+                                            updateDoc(userRef, {
+                                                currentDialogue:
+                                                    arrayUnion(combinedId),
+                                            });
+                                        } else {
+                                            setDoc(userRef, {
+                                                currentDialogue: [combinedId],
+                                            });
+                                        }
+                                    });
+                                    const messagingUserRef = doc(
+                                        db,
+                                        "users",
+                                        receiver
+                                    );
+                                    getDoc(messagingUserRef).then(
+                                        (docSnapshot) => {
+                                            if (docSnapshot.exists()) {
+                                                updateDoc(messagingUserRef, {
+                                                    currentDialogue:
+                                                        arrayUnion(combinedId),
+                                                });
+                                            } else {
+                                                setDoc(messagingUserRef, {
+                                                    currentDialogue: [
+                                                        combinedId,
+                                                    ],
+                                                });
+                                            }
+                                        }
+                                    );
+                                }
+                            })
+                            .then(() => {
+                                const sender = auth.currentUser.uid;
+                                const receiver = currentMessagingUser.id;
+                                const combinedId =
+                                    sender > receiver
+                                        ? `${sender}${receiver}`
+                                        : `${receiver}${sender}`;
+                                const chatRef = doc(db, "chats", combinedId);
+                                getDoc(chatRef)
+                                    .then((docSnapshot) => {
+                                        chat = docSnapshot.data();
+                                    })
+                                    .then(() => {
+                                        dispatch({
+                                            type: "SEND_MESSAGE",
+                                            payload: chat,
+                                        });
+                                        setMessage("");
+                                    });
+                            });
                     }}
                 >
                     <img
