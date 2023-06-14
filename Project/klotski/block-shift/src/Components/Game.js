@@ -190,9 +190,10 @@ export default function Game() {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            dispatch({ type: 'UPDATE_GRID', payload: initialGrid });
-        }, 1000);
+        // setTimeout(() => {
+        //     dispatch({ type: 'UPDATE_GRID', payload: initialGrid });
+        // }, 1000);
+        dispatch({ type: 'UPDATE_GRID', payload: initialGrid });
     }, []);
 
     return (
