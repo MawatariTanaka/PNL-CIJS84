@@ -14,26 +14,18 @@ function generateColor(numberOfColors) {
     return colors;
 }
 
-function getInitialGrid() {
-    return [
-        [0, 1, 1, 0],
-        [2, 1, 1, 3],
-        [4, 4, 5, 6],
-        [7, 8, 9, 9],
-        [10, 11, 12, 12],
-    ];
+function getInitialGrid(grid) {
+    return grid.map((row) => {
+        return row.map((cell) => {
+            return cell;
+        });
+    });
 }
 
 const initialState = {
-    initialGrid: getInitialGrid(),
-    grid: getInitialGrid(),
-    targetGrid: [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 1, 1, 0],
-        [0, 1, 1, 0],
-    ],
+    initialGrid: [],
+    grid: [],
+    targetGrid: [],
     listColor: generateColor(20),
     currentPiece: 1,
     gridRendered: false,
@@ -45,6 +37,14 @@ const initialState = {
 
 const reducer = (state, action) => {
     switch (action.type) {
+        case 'SET_GRID':
+            const { initGrid, targetGrid } = action.payload;
+            return {
+                ...state,
+                initialGrid: getInitialGrid(initGrid),
+                grid: getInitialGrid(initGrid),
+                targetGrid: getInitialGrid(targetGrid),
+            };
         case 'UPDATE_GRID':
             let newGrid = action.payload;
             let newFinishedState = true;
