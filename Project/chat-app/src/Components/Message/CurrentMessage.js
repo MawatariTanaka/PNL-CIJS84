@@ -1,12 +1,18 @@
-import React, { useContext, useState } from 'react';
-import { auth, db } from '../../App';
-import { doc, getDoc, setDoc, updateDoc, arrayUnion } from 'firebase/firestore';
-import { ChatContext } from '../../Context/chatContext';
+import React, { useContext, useState, useEffect } from "react";
+import { auth, db } from "../../App";
+import {
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    arrayUnion,
+    onSnapshot,
+} from "firebase/firestore";
+import { ChatContext } from "../../Context/chatContext";
 
 export default function CurrentMessage() {
     function handleSendingMessage(e) {
         e.preventDefault();
-        let chat;
         const sender = auth.currentUser.uid;
         const receiver = currentMessagingUser.id;
         const combinedId =
@@ -15,7 +21,7 @@ export default function CurrentMessage() {
             sender: sender,
             text: message,
         };
-        const chatRef = doc(db, 'chats', combinedId);
+        const chatRef = doc(db, "chats", combinedId);
         getDoc(chatRef)
             .then((docSnapshot) => {
                 if (docSnapshot.exists()) {
@@ -26,7 +32,7 @@ export default function CurrentMessage() {
                     setDoc(chatRef, {
                         messages: [currentMessage],
                     });
-                    const userRef = doc(db, 'users', sender);
+                    const userRef = doc(db, "users", sender);
                     getDoc(userRef).then((docSnapshot) => {
                         if (docSnapshot.exists()) {
                             updateDoc(userRef, {
@@ -38,7 +44,7 @@ export default function CurrentMessage() {
                             });
                         }
                     });
-                    const messagingUserRef = doc(db, 'users', receiver);
+                    const messagingUserRef = doc(db, "users", receiver);
                     getDoc(messagingUserRef).then((docSnapshot) => {
                         if (docSnapshot.exists()) {
                             updateDoc(messagingUserRef, {
@@ -53,33 +59,36 @@ export default function CurrentMessage() {
                 }
             })
             .then(() => {
-                const sender = auth.currentUser.uid;
-                const receiver = currentMessagingUser.id;
-                const combinedId =
-                    sender > receiver
-                        ? `${sender}${receiver}`
-                        : `${receiver}${sender}`;
-                const chatRef = doc(db, 'chats', combinedId);
-                getDoc(chatRef)
-                    .then((docSnapshot) => {
-                        chat = docSnapshot.data();
-                    })
-                    .then(() => {
-                        dispatch({
-                            type: 'SEND_MESSAGE',
-                            payload: chat,
-                        });
-                        setMessage('');
-                    });
+                setMessage("");
             });
     }
 
-    const { dispatch } = useContext(ChatContext);
-    const { currentMessagingUser, currentDialogue } = useContext(ChatContext);
-    const [message, setMessage] = useState('');
+    const [chats, setChats] = useState([]);
+    const { currentMessagingUser } = useContext(ChatContext);
+    const [message, setMessage] = useState("");
     const userPhoto =
         currentMessagingUser.photoURL ||
         `${process.env.PUBLIC_URL}/icon/profile-user.png`;
+
+    useEffect(() => {
+        const getChats = () => {
+            const sender = auth.currentUser.uid;
+            const receiver = currentMessagingUser.id;
+            const combinedId =
+                sender > receiver
+                    ? `${sender}${receiver}`
+                    : `${receiver}${sender}`;
+            const unsub = onSnapshot(doc(db, "chats", combinedId), (doc) => {
+                setChats(doc.data().messages);
+            });
+            return () => {
+                unsub();
+            };
+        };
+        getChats();
+    }, [currentMessagingUser]);
+
+    console.log(chats);
 
     return (
         <>
@@ -90,22 +99,18 @@ export default function CurrentMessage() {
                 </p>
             </div>
             <div className="dialogue">
-                {auth.currentUser &&
-                currentDialogue &&
-                currentDialogue.length > 0
-                    ? currentDialogue.map((messageObj, index) => (
-                          <div
-                              key={index}
-                              className={`dialogue-row ${
-                                  messageObj.sender === auth.currentUser.uid
-                                      ? 'dialogue-sender-row'
-                                      : 'dialogue-receiver-row'
-                              }`}
-                          >
-                              <p>{messageObj.text}</p>
-                          </div>
-                      ))
-                    : null}
+                {chats.map((messageObj, index) => (
+                    <div
+                        key={index}
+                        className={`dialogue-row ${
+                            messageObj.sender === auth.currentUser.uid
+                                ? "dialogue-sender-row"
+                                : "dialogue-receiver-row"
+                        }`}
+                    >
+                        <p>{messageObj.text}</p>
+                    </div>
+                ))}
             </div>
             <form className="message-box">
                 <input
