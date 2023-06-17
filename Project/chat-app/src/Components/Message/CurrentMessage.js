@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { auth, db } from "../../App";
+import React, { useContext, useState, useEffect } from 'react';
+import { auth, db } from '../../App';
 import {
     doc,
     getDoc,
@@ -7,8 +7,8 @@ import {
     updateDoc,
     arrayUnion,
     onSnapshot,
-} from "firebase/firestore";
-import { ChatContext } from "../../Context/chatContext";
+} from 'firebase/firestore';
+import { ChatContext } from '../../Context/chatContext';
 
 export default function CurrentMessage() {
     function handleSendingMessage(e) {
@@ -21,7 +21,7 @@ export default function CurrentMessage() {
             sender: sender,
             text: message,
         };
-        const chatRef = doc(db, "chats", combinedId);
+        const chatRef = doc(db, 'chats', combinedId);
         getDoc(chatRef)
             .then((docSnapshot) => {
                 if (docSnapshot.exists()) {
@@ -32,7 +32,7 @@ export default function CurrentMessage() {
                     setDoc(chatRef, {
                         messages: [currentMessage],
                     });
-                    const userRef = doc(db, "users", sender);
+                    const userRef = doc(db, 'users', sender);
                     getDoc(userRef).then((docSnapshot) => {
                         if (docSnapshot.exists()) {
                             updateDoc(userRef, {
@@ -44,7 +44,7 @@ export default function CurrentMessage() {
                             });
                         }
                     });
-                    const messagingUserRef = doc(db, "users", receiver);
+                    const messagingUserRef = doc(db, 'users', receiver);
                     getDoc(messagingUserRef).then((docSnapshot) => {
                         if (docSnapshot.exists()) {
                             updateDoc(messagingUserRef, {
@@ -59,13 +59,13 @@ export default function CurrentMessage() {
                 }
             })
             .then(() => {
-                setMessage("");
+                setMessage('');
             });
     }
 
     const [chats, setChats] = useState([]);
     const { currentMessagingUser } = useContext(ChatContext);
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState('');
     const userPhoto =
         currentMessagingUser.photoURL ||
         `${process.env.PUBLIC_URL}/icon/profile-user.png`;
@@ -78,8 +78,10 @@ export default function CurrentMessage() {
                 sender > receiver
                     ? `${sender}${receiver}`
                     : `${receiver}${sender}`;
-            const unsub = onSnapshot(doc(db, "chats", combinedId), (doc) => {
-                setChats(doc.data().messages);
+            const unsub = onSnapshot(doc(db, 'chats', combinedId), (doc) => {
+                if (doc.data()) {
+                    setChats(doc.data().messages);
+                }
             });
             return () => {
                 unsub();
@@ -104,8 +106,8 @@ export default function CurrentMessage() {
                         key={index}
                         className={`dialogue-row ${
                             messageObj.sender === auth.currentUser.uid
-                                ? "dialogue-sender-row"
-                                : "dialogue-receiver-row"
+                                ? 'dialogue-sender-row'
+                                : 'dialogue-receiver-row'
                         }`}
                     >
                         <p>{messageObj.text}</p>

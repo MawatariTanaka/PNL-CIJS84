@@ -1,19 +1,22 @@
-import React, { useState, useContext } from "react";
-import { ChatContext } from "../Context/chatContext";
-import { auth, db } from "../App";
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import React, { useState, useContext } from 'react';
+import { ChatContext } from '../Context/chatContext';
+import { auth, db } from '../App';
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    doc,
+    getDoc,
+} from 'firebase/firestore';
 
 export default function Contact() {
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState('');
     const [users, setUsers] = useState([]);
 
     const searchUsers = async () => {
-        const usersRef = collection(db, "users");
-        const q = query(
-            usersRef,
-            where("username", ">=", username),
-            where("username", "<=", username + "\uf8ff")
-        );
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef);
         const querySnapshot = await getDocs(q);
         const qualifiedUsers = querySnapshot.docs
             .filter((doc) => doc.data().id !== auth.currentUser.uid)
@@ -32,7 +35,7 @@ export default function Contact() {
                 placeholder="Find a contact..."
                 value={username}
                 onKeyDown={(e) => {
-                    if (e.code === "Enter") {
+                    if (e.code === 'Enter') {
                         searchUsers();
                     }
                 }}
@@ -52,7 +55,7 @@ export default function Contact() {
                                     sender > receiver
                                         ? `${sender}${receiver}`
                                         : `${receiver}${sender}`;
-                                const chatRef = doc(db, "chats", combinedId);
+                                const chatRef = doc(db, 'chats', combinedId);
                                 getDoc(chatRef)
                                     .then((docSnapshot) => {
                                         if (docSnapshot.exists()) {
@@ -61,7 +64,7 @@ export default function Contact() {
                                     })
                                     .then(() => {
                                         dispatch({
-                                            type: "CHANGE_USER",
+                                            type: 'CHANGE_USER',
                                             payload: { user, chat },
                                         });
                                     });
